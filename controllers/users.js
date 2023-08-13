@@ -5,6 +5,8 @@ const AuthError = require('../errors/unauthorized-error');
 const ConflictError = require('../errors/conflict-error');
 const NotFoundError = require('../errors/notFound-error');
 const ValidError = require('../errors/badRequest-error');
+const { secretKey } = require('../utils/constants');
+
 
 module.exports.getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
@@ -22,11 +24,13 @@ module.exports.getUserInfo = (req, res, next) => {
     });
 };
 
+// POST /users — создаёт пользователя
 module.exports.createUser = (req, res, next) => {
   const {
     name, email, password,
   } = req.body;
 
+  // User.create({ name, about, avatar })
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name,
@@ -49,6 +53,7 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
+// PATCH /users/me — обновляет профиль
 module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, email }, {
@@ -57,7 +62,7 @@ module.exports.updateUser = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Нет пользователя с таким id');
+        throw new NotFoundError('Пользователь по указанному _id не найден');
       }
       res.send(user);
     })
@@ -65,14 +70,18 @@ module.exports.updateUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new ValidError('Введены некорректные данные'));
       }
+      if (err.code === 11000) {
+        next(new ConflictError('Это чужая почта'));
+      }
       return next(err);
     });
 };
 
+// Создайте контроллер login
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
-  User.findOne({ email }).select('+password')
+  User.findOne({ email }).select('+password') // в случае аутентификации хеш пароля нужен
     .then((user) => {
       if (!user) {
         return Promise.reject(new AuthError('Неправильные почта или пароль'));
@@ -85,7 +94,7 @@ module.exports.login = (req, res, next) => {
       }
       const token = jwt.sign(
         { _id: user._id },
-        'some-secret-key',
+        secretKey,
         { expiresIn: '7d' },
       );
       return res.send({ token });

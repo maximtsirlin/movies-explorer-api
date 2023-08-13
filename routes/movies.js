@@ -9,7 +9,7 @@ const {
 router.get('/movies', getMovies);
 
 router.post(
-  'movies',
+  '/movies',
   celebrate({
     body: Joi.object().keys({
       country: Joi.string().required(),
@@ -51,7 +51,7 @@ router.delete(
   '/movies/_id',
   celebrate({
     params: Joi.object().keys({
-      movieId: Joi.string().required().hex().length(24),
+      _id: Joi.string().required().hex().length(24),
     }),
   }),
   deleteMovie,
