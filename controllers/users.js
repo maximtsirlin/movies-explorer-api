@@ -1,12 +1,11 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const AuthError = require('../errors/unauthorized-error');
 const ConflictError = require('../errors/conflict-error');
 const NotFoundError = require('../errors/notFound-error');
-const ValidError = require('../errors/badRequest-error');
+const ValidError = require('../errors/validation-error');
 const { secretKey } = require('../utils/constants');
-
 
 module.exports.getUserInfo = (req, res, next) => {
   User.findById(req.user._id)
@@ -14,7 +13,8 @@ module.exports.getUserInfo = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('Пользователь по _id не найден');
       }
-      return res.status(200).send({ data: user });
+      // return res.status(200).send({ data: user });
+      res.send(user);
     })
     .catch((error) => {
       if (error.name === 'CastError') {
@@ -24,13 +24,11 @@ module.exports.getUserInfo = (req, res, next) => {
     });
 };
 
-// POST /users — создаёт пользователя
 module.exports.createUser = (req, res, next) => {
   const {
     name, email, password,
   } = req.body;
 
-  // User.create({ name, about, avatar })
   bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name,
@@ -53,7 +51,6 @@ module.exports.createUser = (req, res, next) => {
     });
 };
 
-// PATCH /users/me — обновляет профиль
 module.exports.updateUser = (req, res, next) => {
   const { name, email } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, email }, {
@@ -77,7 +74,6 @@ module.exports.updateUser = (req, res, next) => {
     });
 };
 
-// Создайте контроллер login
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 

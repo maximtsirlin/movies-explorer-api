@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+const rateLimiter = require('./rateLimiter'); // Import the rate limiter module
 const cors = require('./middlewares/cors');
 const { addressMongoDB } = require('./utils/constants');
 const routes = require('./routes/index');
@@ -19,7 +20,6 @@ const { PORT = 3000 } = process.env;
 
 mongoose.connect(addressMongoDB);
 
-
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(cors);
@@ -28,7 +28,13 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
+app.use(routes);
 
 app.use('*', (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
@@ -36,20 +42,19 @@ app.use('*', (req, res, next) => {
 
 app.use(errorLogger);
 
-
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
+app.use((err, req, res) => {
+  const statusCode = err.statusCode || 500;
+  const message = statusCode === 500 ? 'Произошла ошибка на сервере' : err.message;
   res
-    .status(err.statusCode)
+    .status(statusCode)
     .send({
-      message: statusCode === 500
-        ? 'Произошла ошибка на сервере'
-        : message,
+      message,
     });
-  next();
 });
+
+app.use('/api/some-rate-limited-route', rateLimiter);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console

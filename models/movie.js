@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+// const validator = require('validator');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -23,34 +23,31 @@ const movieSchema = new mongoose.Schema({
     type: String,
   },
   image: {
+    required: true,
     type: String,
     validate: {
       validator(v) {
-        return urlRegex.test(v);
+        return /^(https?:\/\/(www\.)?([a-zA-z0-9-]{1}[a-zA-z0-9-]*\.?)*\.{1}([a-zA-z0-9]){2,8}(\/?([a-zA-z0-9-])*\/?)*\/?([-._~:?#[]@!\$&'\(\)\*\+,;=])*)/.test(v);
       },
-      message: 'Введена некорректная ссылка',
     },
-    required: [true, 'Введите ссылку на постер к фильму'],
   },
   trailerLink: {
+    required: true,
     type: String,
     validate: {
       validator(v) {
-        return urlRegex.test(v);
+        return /^(https?:\/\/(www\.)?([a-zA-z0-9-]{1}[a-zA-z0-9-]*\.?)*\.{1}([a-zA-z0-9]){2,8}(\/?([a-zA-z0-9-])*\/?)*\/?([-._~:?#[]@!\$&'\(\)\*\+,;=])*)/.test(v);
       },
-      message: 'Введена некорректная ссылка',
     },
-    required: [true, 'Введите ссылку на трейлер фильма'],
   },
   thumbnail: {
+    required: true,
     type: String,
     validate: {
       validator(v) {
-        return urlRegex.test(v);
+        return /^(https?:\/\/(www\.)?([a-zA-z0-9-]{1}[a-zA-z0-9-]*\.?)*\.{1}([a-zA-z0-9]){2,8}(\/?([a-zA-z0-9-])*\/?)*\/?([-._~:?#[]@!\$&'\(\)\*\+,;=])*)/.test(v);
       },
-      message: 'Введена некорректная ссылка',
     },
-    required: [true, 'Введите ссылку на миниатюрное изображение постера к фильму'],
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
