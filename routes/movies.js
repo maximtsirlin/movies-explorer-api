@@ -3,7 +3,7 @@ const { getMovies, createMovie, deleteMovie } = require('../controllers/movies')
 const {
   validateMovieSchema,
   validateMovieIdParam,
-} = require('../utils/validators/movieValidator'); // Import the validation module
+} = require('../utils/validators/movieValidator');
 
 router.get('/movies', getMovies);
 

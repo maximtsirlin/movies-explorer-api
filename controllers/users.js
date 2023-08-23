@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs'); // импортируем bcrypt
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const AuthError = require('../utils/errors/unauthorized-error');
