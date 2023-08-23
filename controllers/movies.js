@@ -1,7 +1,7 @@
 const Movie = require('../models/movie');
-const ValidError = require('../errors/validation-error');
-const NotFoundError = require('../errors/notFound-error');
-const ForbiddenError = require('../errors/forbidden-error');
+const ValidError = require('../utils/errors/validation-error');
+const NotFoundError = require('../utils/errors/notFound-error');
+const ForbiddenError = require('../utils/errors/forbidden-error');
 
 module.exports.getMovies = (req, res, next) => {
   const owner = req.user._id;
@@ -57,7 +57,7 @@ module.exports.deleteMovie = (req, res, next) => {
       if (movie.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Это чужой фильм, его нельзя удалить');
       } else {
-        return movie.remove()
+        return movie.deleteOne()
           .then(() => res.send({
             message: 'Фильм удален',
           }));

@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs'); // импортируем bcrypt
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const AuthError = require('../errors/unauthorized-error');
-const ConflictError = require('../errors/conflict-error');
-const NotFoundError = require('../errors/notFound-error');
-const ValidError = require('../errors/validation-error');
+const AuthError = require('../utils/errors/unauthorized-error');
+const ConflictError = require('../utils/errors/conflict-error');
+const NotFoundError = require('../utils/errors/notFound-error');
+const ValidError = require('../utils/errors/validation-error');
 const { secretKey } = require('../utils/constants');
 
 module.exports.getUserInfo = (req, res, next) => {

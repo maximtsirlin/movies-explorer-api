@@ -6,12 +6,12 @@ const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
-const rateLimiter = require('./rateLimiter'); // Import the rate limiter module
+const rateLimiter = require('./rateLimiter');
 const cors = require('./middlewares/cors');
 const { addressMongoDB } = require('./utils/constants');
 const routes = require('./routes/index');
 
-const NotFoundError = require('./errors/notFound-error');
+const NotFoundError = require('./utils/errors/notFound-error');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
@@ -28,6 +28,8 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
+app.use('/api/some-rate-limited-route', rateLimiter);
+
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -42,19 +44,27 @@ app.use('*', (req, res, next) => {
 
 app.use(errorLogger);
 
-app.use(errors());
-
-app.use((err, req, res) => {
-  const statusCode = err.statusCode || 500;
-  const message = statusCode === 500 ? 'Произошла ошибка на сервере' : err.message;
-  res
-    .status(statusCode)
-    .send({
+app.use((err, req, res, next) => {
+  if (err.name === 'MongoError') {
+    const statusCode = 400;
+    res.status(statusCode).send({
+      message: 'Ошибка базы данных',
+    });
+  } else if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    res.status(400).send({
+      message: 'Некорректный JSON в запросе',
+    });
+  } else {
+    const statusCode = err.statusCode || 500;
+    const message = statusCode === 500 ? 'Произошла ошибка на сервере' : err.message;
+    res.status(statusCode).send({
       message,
     });
+  }
+  next();
 });
 
-app.use('/api/some-rate-limited-route', rateLimiter);
+app.use(errors());
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
