@@ -28,6 +28,8 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
+app.use(errors());
+
 app.use('/api/some-rate-limited-route', rateLimiter);
 
 app.get('/crash-test', () => {
@@ -45,26 +47,13 @@ app.use('*', (req, res, next) => {
 app.use(errorLogger);
 
 app.use((err, req, res, next) => {
-  if (err.name === 'MongoError') {
-    const statusCode = 400;
-    res.status(statusCode).send({
-      message: 'Ошибка базы данных',
-    });
-  } else if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    res.status(400).send({
-      message: 'Некорректный JSON в запросе',
-    });
-  } else {
-    const statusCode = err.statusCode || 500;
-    const message = statusCode === 500 ? 'Произошла ошибка на сервере' : err.message;
-    res.status(statusCode).send({
-      message,
-    });
-  }
+  const statusCode = err.statusCode || 500;
+  const message = statusCode === 500 ? 'Произошла ошибка на сервере' : err.message;
+  res.status(statusCode).send({
+    message,
+  });
   next();
 });
-
-app.use(errors());
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
