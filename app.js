@@ -28,8 +28,6 @@ app.use(cookieParser());
 
 app.use(requestLogger);
 
-app.use(errors());
-
 app.use('/api/some-rate-limited-route', rateLimiter);
 
 app.get('/crash-test', () => {
@@ -45,6 +43,7 @@ app.use('*', (req, res, next) => {
 });
 
 app.use(errorLogger);
+app.use(errors());
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
