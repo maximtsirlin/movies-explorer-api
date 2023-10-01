@@ -1,0 +1,171 @@
+.search {
+  padding: 82px 0 10px;
+}
+
+.search__form {
+  border-bottom: 1px solid #424242;
+  width: 1139px;
+  margin: auto;
+}
+
+.search__search {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  outline: 1.5px solid #424242;
+  width: 1118px;
+  outline-offset: 11px;
+  margin: auto;
+  border-radius: 1px;
+}
+
+.search__input {
+  color: white;
+  background: #202020;
+  border: none;
+  width: 1060px;
+  padding: 15px 22px;
+  margin-right: 10px;
+  font-size: 14px;
+  line-height: 1.29;
+}
+
+.search__button {
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: white;
+  background: #4285F4;
+  border: none;
+  border-radius: 3px;
+  width: 103px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.search__button:hover {
+  opacity: 0.6;
+}
+
+
+.search__error {
+  color: #EE3465;
+  font-size: 10px;
+  line-height: 1.2;
+  position: absolute;
+  top: 50px;
+}
+
+
+.search__label {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin-top: 37px;
+  margin-bottom: 44px;
+  margin-left: 0;
+  max-width: 156px;
+  align-items: center;
+  font-size: 12px;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+
+
+.search__label:hover {
+  opacity: 0.7;
+}
+
+.search__invisible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+}
+
+.search__invisible:focus-visible+.search__visible {
+  outline: auto;
+}
+
+.search__invisible:checked+.search__visible {
+  background-image: url('../../../images/smalltumb.svg');
+}
+
+.search__visible {
+  width: 36px;
+  height: 20px;
+  border-radius: 20px;
+  background-image: url('../../../images/smalltumblr.svg');
+  transition: 0.3s;
+}
+
+.search__visible:hover {
+  cursor: pointer;
+}
+
+.search__text {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-left: 12px;
+}
+
+
+@media screen and (max-width: 1279px) {
+  .search {
+    padding: 81px 15px 40px;
+    outline-offset: 11px;
+  }
+
+  .search__search {
+    width: 686px;
+  }
+
+
+  .search__label {
+    margin-bottom: 54px;
+  }
+
+  .search__form {
+    width: 705px;
+    margin: auto;
+  }
+
+  .search__input {
+    width: 628px;
+  }
+
+
+
+  .search__search {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+
+  .search {
+    padding: 76px 15px 40px;
+  }
+
+  .search__search {
+    width: 274px;
+    outline-offset: 6px;
+  }
+
+  .search__form {
+    width: 285px;
+    margin: auto;
+  }
+
+  .search__button {
+    width: 89px;
+  }
+
+  .search__input {
+    padding: 12px 0px 12px;
+    width: 212px;
+  }
+
+}

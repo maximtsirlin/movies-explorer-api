@@ -1,0 +1,142 @@
+.project {
+  background-color: #202020;
+}
+
+.project__container {
+  max-width: 1280px;
+  box-sizing: border-box;
+  padding: 110px 70px 100px;
+  margin: auto;
+}
+
+.project__texts {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, minmax(min-content, max-content));
+  grid-row-gap: 26px;
+  grid-column-gap: 40px;
+  margin: 95px 0 110px;
+}
+
+.project__title {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.22;
+  margin: 0 0 23px;
+  letter-spacing: -0.04em;
+}
+
+.project__subtitle {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+.project__text {
+  font-size: 14px;
+  line-height: 1.42;
+  margin: 0;
+}
+
+.project__time {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: repeat(2, 36px);
+  row-gap: 5px;
+  font-size: 14px;
+  line-height: 1.21;
+}
+
+.project__one {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #3DDC84;
+  color: black;
+  margin: 0;
+}
+
+.project__four {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #303030;
+  text-align: center;
+  margin: 0;
+}
+
+.project__backend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8B8B8B;
+  text-align: center;
+  margin: 0;
+  font-weight: 500;
+}
+
+.project__frontend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8B8B8B;
+  text-align: center;
+  margin: 0;
+  font-weight: 500;
+}
+
+@media screen and (max-width: 1279px) {
+  .project__container {
+    padding: 90px 50px 80px;
+    max-width: 768px;
+  }
+
+  .project__texts {
+    margin-bottom: 93px;
+    grid-row-gap: 22px;
+    grid-column-gap: 30px;
+  }
+
+  .project__text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .project__container {
+    padding: 70px 18px 60px;
+    max-width: 320px;
+  }
+
+  .project__texts {
+    margin: 53px 0 60px;
+    grid-template-columns: 284px;
+    grid-template-rows: repeat(4, minmax(min-content, max-content));
+    grid-row-gap: 13px;
+    font-size: 11px;
+    line-height: 1.18;
+  }
+
+  .project__title {
+    margin: 0 0 47px;
+    font-size: 18px;
+  }
+
+
+  .project__subtitle {
+    margin-top: 38px;
+    font-size: 18px;
+    line-height: 1.22;
+  }
+
+  .project__time {
+    grid-template-columns: 100px 184px;
+    gap: 0;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+}

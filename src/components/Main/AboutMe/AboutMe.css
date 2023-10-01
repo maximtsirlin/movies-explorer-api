@@ -1,0 +1,159 @@
+.me {
+  background-color: #202020;
+}
+
+.me__container {
+  margin: auto;
+  max-width: 1280px;
+  padding: 110px 70px 50px;
+  box-sizing: border-box;
+}
+
+.me__block {
+  display: flex;
+  margin-top: 66px;
+  justify-content: space-between;
+}
+
+.me__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.me__title {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.22;
+  margin: 0 0 89px;
+  letter-spacing: -0.04em;
+}
+
+.me__texts {
+  max-width: 600px;
+}
+
+.me__name {
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 1.16;
+  letter-spacing: -0.04em;
+  margin: 0 0 18px;
+}
+
+.me__about {
+  font-size: 18px;
+  line-height: 1.11;
+  margin: 0 0 26px;
+  font-weight: 500;
+}
+
+.me__text {
+  font-size: 14px;
+  line-height: 1.57;
+  margin: 0;
+}
+
+.me__image {
+  width: 270px;
+  height: 327px;
+  background: url('/src/images/photo.jpg');
+  border-radius: 10px;
+}
+
+.me__link {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.21;
+  transition: opacity 0.3s;
+}
+
+.me__link:first-of-type {
+  margin-right: 20px;
+}
+
+.me__link:hover {
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 1279px) {
+  .me__container {
+    max-width: 768px;
+    padding: 90px 50px 45px;
+  }
+
+  .me__texts {
+    max-width: 364px;
+  }
+
+  .me__name {
+    font-size: 40px;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .me__about {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .me__text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .me__image {
+    width: 255px;
+    height: 307px;
+  }
+
+  .me__link {
+    font-size: 14px;
+    line-height: 1.21;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .me__container {
+    padding: 73px 14px 35px;
+    max-width: 320px;
+  }
+
+  .me__block {
+    flex-direction: column-reverse;
+    margin-top: 60px;
+  }
+
+  .me__image {
+    width: 292px;
+    height: 352px;
+  }
+
+  .me__name {
+    margin: 40px 0 20px;
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .me__about {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .me__text {
+    font-size: 11px;
+    line-height: 1.45;
+    margin-bottom: 26px;
+  }
+
+  .me__link:first-of-type {
+    margin-right: 26px;
+  }
+
+  .me__title {
+    font-size: 18px;
+  }
+}
