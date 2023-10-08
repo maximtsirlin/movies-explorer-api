@@ -52,15 +52,15 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Фильм отсутствует');
+        throw new NotFoundError('NotFoundError');
       }
-      if (movie.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Это чужой фильм, его нельзя удалить');
+      if (movie && movie.owner.equals(req.user._id)) {
+        Movie.deleteOne(movie)
+          .then(() => res.send(movie))
+          .catch(next);
       } else {
-        return movie.deleteOne()
-          .then(() => res.send({
-            message: 'Фильм удален',
-          }));
+        throw new ForbiddenError('ForbiddenError');
       }
-    }).catch(next);
+    })
+    .catch(next);
 };
