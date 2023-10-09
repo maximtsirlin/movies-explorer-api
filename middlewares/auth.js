@@ -4,16 +4,20 @@ const { secretKey } = require('../utils/constants');
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
+  if (!authorization || !authorization.startsWith('Bearer ')) {
+    next(new AuthorisationError('AuthorisationError'));
+    return;
+  }
+  const token = authorization.replace('Bearer ', '');
 
-  if (!authorization || !authorization.startsWith('Bearer')) {
-    return next(new AuthorisationError('Необходима авторизация'));
-  }
-  const token = authorization.replace(/^Bearer\s+/, '');
+  let payload;
+
   try {
-    const payload = jwt.verify(token, secretKey);
-    req.user = payload;
-    return next();
+    payload = jwt.verify(token, secretKey);
   } catch (err) {
-    return next(new AuthorisationError('Неверная авторизация'));
+    next(new AuthorisationError('AuthorisationError'));
+    return;
   }
+  req.user = payload;
+  next();
 };
